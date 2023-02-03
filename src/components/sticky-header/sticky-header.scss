@@ -1,0 +1,33 @@
+/*
+*  VARIABLES
+*/
+$sticky-header--transition-duration: var(--sticky-header--transition-duration, .4s);
+$sticky-header--z-index: var(--sticky-header--z-index, 9);
+$sticky-header--hidden-transform: var(--sticky-header--hidden-transform, translate3d(0,-100%,0));
+
+/*
+*  Component
+*/
+:host(.sticky-header){
+  display: block;
+}
+
+// Modifiers
+:host(.sticky-header.sticky-header--fixed){
+  >div{
+    position: fixed;
+    z-index: $sticky-header--z-index;
+    left: 0; top: 0;
+    width: 100%;
+  }
+}
+:host(.sticky-header.sticky-header--transition){
+  >div{
+    transition: all $sticky-header--transition-duration ease;
+  }
+}
+:host(.sticky-header.sticky-header--hidden){
+  >div{
+    transform: $sticky-header--hidden-transform;
+  }
+}

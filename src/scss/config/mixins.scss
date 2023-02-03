@@ -1,0 +1,569 @@
+// BOX SIZING
+@mixin box-sizing($property: border-box) {
+    box-sizing: $property;
+    box-sizing: $property;
+    box-sizing: $property;
+}
+// MEDIA QUERIES
+$breakpoints_nobu: (
+
+    ie: '(-ms-high-contrast: active), (-ms-high-contrast: none)',
+
+    max-hugescreen:'(max-width:1650px)', min-hugescreen:'(min-width:1650px)',
+    max-fullhd: '(max-width:1407px)', min-fullhd: '(min-width:1408px)',
+    max-widescreen: '(max-width:1215px)', min-widescreen: '(min-width:1216px)',
+    max-desktop: '(max-width:1023px)', min-desktop: '(min-width:1024px)',
+    max-mobile: '(max-width:768px)', min-mobile: '(min-width:769px)',
+    max-small-mobile: '(max-width:540px)', min-small-mobile: '(max-width:540px)',
+    max-tiny: '(max-width:370px)', min-tiny: '(max-width:370px)',
+) !default;
+
+/// Mixin to manage responsive breakpoints
+/// @author Kitty Giraudel
+/// @param {String} $breakpoint - Breakpoint name
+/// @require $breakpoints_nobu
+/// https://css-tricks.com/snippets/sass/mixin-manage-breakpoints/
+@mixin mq($breakpoint) {
+    @if map-has-key($breakpoints_nobu, $breakpoint) {
+        @media screen and #{map-get($breakpoints_nobu, $breakpoint)} {
+            @content;
+        }
+    }
+    @else {
+        @warn 'Unfortunately, no value could be retrieved from `#{$breakpoint}`. '
+            + 'Available breakpoints are: #{map-keys($breakpoints)}.';
+    }
+}
+// BULMA QUERIES FOR THE COLUMN
+// The container horizontal gap, which acts as the offset for breakpoints
+$gap: 32px !default;
+// 960, 1152, and 1344 have been chosen because they are divisible by both 12 and 16
+$tablet: 769px !default;
+// 960px container + 4rem
+$desktop: 960px + (2 * $gap) !default;
+// 1152px container + 4rem
+$widescreen: 1152px + (2 * $gap) !default;
+$widescreen-enabled: true !default;
+// 1344px container + 4rem
+$fullhd: 1344px + (2 * $gap) !default;
+$fullhd-enabled: true !default;
+
+// BACKGROUND @2x
+@mixin background-2x($path, $ext: 'png', $w: auto, $pos: left top, $repeat: no-repeat) {
+
+    $at1x_path: '#{$path}.#{$ext}';
+    $at2x_path: '#{$path}@2x.#{$ext}';
+
+    background-image: url('#{$at1x_path}');
+    background-repeat: $repeat;
+    background-position: $pos;
+    background-size: $w;
+
+    @media all and (minpixel-ratio : 1.5),
+        all and (minpixel-ratio: 3/2),
+        all and (min-device-pixel-ratio: 1.5),
+        all and (min-device-pixel-ratio: 1.5) {
+        background-image: url('#{$at2x_path}');
+        background-repeat: $repeat;
+        background-position: $pos;
+        background-size: $w;
+    }
+}
+// TRIANGLE
+@mixin triangle($dir, $color, $width, $height) {
+    width: 0;
+    height: 0;
+
+    border-style: solid;
+    @if $dir == top {
+        border-width: 0 $width $height $width;
+        border-color: transparent transparent $color transparent;
+
+    }@else if $dir == bottom {
+        border-width: $height $width 0 $width;
+        border-color: $color transparent transparent transparent;
+    }
+    @else if $dir == left {
+        border-width: $height $width $height 0;
+        border-color: transparent $color transparent transparent;
+    }
+    @else if $dir == right {
+        border-width: $height 0 $height $width;
+        border-color: transparent transparent transparent $color;
+    }
+}
+
+@mixin square($size) {
+    width: rem($size);
+    min-width: rem($size);
+    height: rem($size);
+    min-height: rem($size);
+}
+
+// BACKGROUND GRADIENT
+// https://robots.thoughtbot.com/controlling-color-with-sass-color-functions
+// https://glennmccomb.com/articles/creating-smooth-sequential-animations-with-sass/
+@mixin bg-gradient($directionTo: top, $colorStart: black, $colorEnd: white , $upTo: 100%) {
+    background: linear-gradient(to $directionTo, $colorStart 0%, $colorEnd $upTo);
+}
+// COLUMNS
+@mixin layoutRestartColumn($gapX, $gapY) {
+    margin-top: -#{$gapY};
+    margin-right: -#{$gapX};
+    margin-left: -#{$gapX};
+
+    &:not(:last-child) {
+        margin-bottom: calc(1.5rem - #{$gapY});
+    }
+
+    >.column,
+    >.col { padding: $gapY $gapX;}
+}
+// PLACEHOLDER
+// Find the mixin there -> nodes_modules/bulma/sass/utilities/mixins.sass & other
+// @mixin placeholder {
+//   $placeholders: ':-moz' ':-webkit-input' '-moz' '-ms-input';
+//   @each $placeholder in $placeholders {
+//     &:#{$placeholder}-placeholder {
+//       @content;
+//     }
+//   }
+// }
+
+// }
+// BACKGROUND SO COLOR
+@mixin backgroundSoColor($color) {
+    color: findColorInvert($color);
+    // @if colorLuminance($color) < 0.5 {
+    //   color: white;
+    // }@else if colorLuminance($color) > 0.5 {
+    //   color: black;
+    // }
+    background: $color;
+}
+// ELLIPSIS
+@mixin ellipsis() {
+    width: 100%;
+    overflow: hidden;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+//objectFitImages
+@mixin fit() {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+}
+@mixin objectfit() {
+    object-fit: cover;
+    object-position: center;
+
+    font-family: 'object-fit: cover; object-position: center;';
+}
+// CROSS PLUS BACK
+@mixin icon-tricks(
+    $size: rem(30),
+    $background: transparent,
+    $background-hover: rgba(black, 0.05),
+    $border-size: 1px,
+    $border-color: rgba(black, 0.1),
+    $border-radius: 50%,
+    $line-width: 50%,
+    $line-height: 1px,
+    $line-background: black,
+    $dir: cross,
+) {
+    position: relative;
+
+    display: block;
+    width: $size;
+    height: $size;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+
+    text-indent: -999999px;
+
+    background: $background;
+    border: $border-size solid $border-color;
+    border-radius: $border-radius;
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+
+    &::before,
+    &::after {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+
+        width: $line-width;
+        height: $line-height;
+
+        background: $line-background;
+
+        content: '';
+    }
+
+    &::before {
+        @if $dir == cross {
+            transform: translate3d(-50%, -50%, 0) rotate(45deg);
+        }@else if $dir == plus {
+            transform: translate3d(-50%, -50%, 0) rotate(0deg);
+        }@else if $dir == back or $dir == down {
+            display: none;
+        }
+    }
+
+    &::after {
+        @if $dir == cross {
+            transform: translate3d(-50%, -50%, 0) rotate(-45deg);
+        }@else if $dir == plus {
+            transform: translate3d(-50%, -50%, 0) rotate(-90deg);
+        }@else if $dir == back or $dir == down {
+            transform: translate3d(-30%, -50%, 0) rotate(-45deg);
+
+            width: $line-width;
+            height: $line-width;
+
+            background: transparent;
+            border-top: $line-height solid $line-background;
+            border-left: $line-height solid $line-background;
+            @if $dir == down {
+                transform: translate3d(-50%, -70%, 0) rotate(-135deg);
+            }
+        }
+    }
+
+    &:hover {
+        background: $background-hover;
+    }
+}
+
+// Medium mixin :
+// https://medium.com/@justinbrazeau/10-useful-sass-mixins-for-automation-833cdee9d69b
+// Define vertical, horizontal, or both position
+@mixin centeriser($position) {
+    position: absolute;
+    @if $position == 'vertical' {
+        top: 50%;
+
+        transform: translate3d(0, -50%, 0);
+    }
+    @else if $position == 'horizontal' {
+        left: 50%;
+
+        transform: translate3d(-50%, 0, 0);
+    }
+    @else if $position == 'both' {
+        top: 50%;
+        left: 50%;
+
+        transform: translate3d(-50%, -50%, 0);
+    }
+}
+// Padding mixin
+@mixin padding($top, $right, $bottom, $left) {
+    padding-top: $top;
+    padding-right: $right;
+    padding-bottom: $bottom;
+    padding-left: $left;
+}
+// Margin mixin
+@mixin margin($top, $right, $bottom, $left) {
+    margin-top: $top;
+    margin-right: $right;
+    margin-bottom: $bottom;
+    margin-left: $left;
+}
+
+// Engage mixin :
+// https://engageinteractive.co.uk/blog/top-10-scss-mixins
+@mixin pseudo($display: block, $pos: absolute, $content: '') {
+    position: $pos;
+
+    display: $display;
+
+    content: $content;
+}
+// http://qatsi.eu/calcul.ratio.image.php
+@mixin responsive-ratio($x,$y, $pseudo: true) {
+    $padding: unquote(( $y / $x ) * 100 + '%');
+    @if $pseudo {
+        &::before {
+            @include pseudo($pos: relative);
+            width: 100%;
+            padding-top: $padding;
+        }
+    } @else {
+        padding-top: $padding;
+    }
+}
+// W3bits Mixin :
+// https://w3bits.com/sass-mixins/
+@mixin box($width, $height:$width) {
+    width: $width;
+    height: $height;
+}
+
+@mixin longshadow($color) {
+    text-shadow: makelongshadow($color);
+}
+// Bulma mixins
+@mixin overflow-touch {
+    -webkit-overflow-scrolling: touch;
+}
+
+@mixin placeholder {
+    $placeholders: ':-moz' ':-webkit-input' '-moz' '-ms-input';
+    @each $placeholder in $placeholders {
+        &:#{$placeholder}-placeholder {
+            @content;
+        }
+    }
+}
+// Responsiveness
+
+@mixin from($device) {
+    @media screen and (min-width: $device) {
+        @content;
+    }
+}
+@mixin until($device) {
+    @media screen and (max-width: $device - 1px) {
+        @content;
+    }
+}
+@mixin mobile {
+    @media screen and (max-width: $tablet - 1px) {
+        @content;
+    }
+}
+@mixin tablet {
+    @media screen and (min-width: $tablet), print {
+        @content;
+    }
+}
+@mixin tablet-only {
+    @media screen and (min-width: $tablet) and (max-width: $desktop - 1px) {
+        @content;
+    }
+}
+@mixin touch {
+    @media screen and (max-width: $desktop - 1px) {
+        @content;
+    }
+}
+@mixin desktop {
+    @media screen and (min-width: $desktop) {
+        @content;
+    }
+}
+@mixin desktop-only {
+    @if $widescreen-enabled {
+        @media screen and (min-width: $desktop) and (max-width: $widescreen - 1px) {
+            @content;
+        }
+    }
+}
+@mixin until-widescreen {
+    @if $widescreen-enabled {
+        @media screen and (max-width: $widescreen - 1px) {
+            @content;
+        }
+    }
+}
+@mixin widescreen {
+    @if $widescreen-enabled {
+        @media screen and (min-width: $widescreen) {
+            @content;
+        }
+    }
+}
+@mixin widescreen-only {
+    @if $widescreen-enabled and $fullhd-enabled {
+        @media screen and (min-width: $widescreen) and (max-width: $fullhd - 1px) {
+            @content;
+        }
+    }
+}
+@mixin until-fullhd {
+    @if $fullhd-enabled {
+        @media screen and (max-width: $fullhd - 1px) {
+            @content;
+        }
+    }
+}
+@mixin fullhd {
+    @if $fullhd-enabled {
+        @media screen and (min-width: $fullhd) {
+            @content;
+        }
+    }
+}
+@mixin ltr {
+    @if not $rtl {
+        @content;
+    }
+}
+@mixin rtl {
+    @if $rtl {
+        @content;
+    }
+}
+@mixin ltr-property($property, $spacing, $right: true) {
+    $normal: if($right, 'right', 'left');
+    $opposite: if($right, 'left', 'right');
+    @if $rtl {
+        #{$property}-#{$opposite}: $spacing;
+    }  @else {
+        #{$property}-#{$normal}: $spacing;
+    }
+}
+@mixin ltr-position($spacing, $right: true) {
+    $normal: if($right, 'right', 'left');
+    $opposite: if($right, 'left', 'right');
+    @if $rtl {
+        #{$opposite}: $spacing;
+    }  @else {
+        #{$normal}: $spacing;
+    }
+}
+
+// Placeholder
+@mixin arrow($color: transparent) {
+    position: absolute;
+    top: 50%;
+
+    display: block;
+    width: 0.625em;
+    height: 0.625em;
+    margin-top: -0.4375em;
+
+    border: 3px solid $color;
+    border-top: 0;
+    border-right: 0;
+    border-radius: 2px;
+    transform: rotate(-45deg);
+    transform-origin: center;
+
+    content: ' ';
+    pointer-events: none;
+}
+
+
+@mixin loading($color: $grey-light) {
+    position: relative;
+
+    display: block;
+    width: 1em;
+    height: 1em;
+
+    border: 2px solid $color;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    border-radius: $border-radius-rounded;
+
+    animation: spinAround 500ms infinite linear;
+
+    content: '';
+}
+
+@mixin unselectable {
+    -webkit-touch-callout: none;
+
+    user-select: none;
+    user-select: none;
+    user-select: none;
+    user-select: none;
+}
+
+@mixin block($spacing: rem(24)) {
+    &:not(:last-child) {
+        margin-bottom: $spacing;
+    }
+}
+
+@mixin center($width, $height: 0) {
+    position: absolute;
+    @if $height != 0 {
+        left: calc(50% - (#{$width} * 0.5));
+        top: calc(50% - (#{$height} * 0.5));
+    }  @else {
+        left: calc(50% - (#{$width} * 0.5));
+        top: calc(50% - (#{$width} * 0.5));
+    }
+}
+
+$control-radius: 10px !default;
+
+$control-border-width: 1px !default;
+
+$control-height: 2.5em !default;
+$control-line-height: 1.5 !default;
+
+$control-padding-vertical: calc(0.5em - #{$control-border-width}) !default;
+$control-padding-horizontal: calc(0.75em - #{$control-border-width}) !default;
+
+@mixin control {
+    position: relative;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    height: $control-height;
+    padding-top: $control-padding-vertical;
+    padding-right: $control-padding-horizontal;
+    padding-bottom: $control-padding-vertical;
+    padding-left: $control-padding-horizontal;
+
+    font-size: 16px;
+    line-height: $control-line-height;
+    vertical-align: top;
+
+    border: $control-border-width solid transparent;
+    border-radius: $control-radius;
+    box-shadow: none;
+
+    appearance: none;
+    appearance: none;
+    // States
+    &:focus,
+    &.is-focused,
+    &:active,
+    &.is-active {
+        outline: none;
+    }
+
+    &[disabled],
+    fieldset[disabled] & {
+        cursor: not-allowed;
+    }
+    // The controls sizes use mixins so they can be used at different breakpoints
+}
+
+%control {
+    @include control;
+}
+
+%loading {
+    @include loading;
+}
+
+%block {
+    @include block;
+}
+
+%unselectable {
+    @include unselectable;
+}
+
+// Positioning
+// Box Model
+// Typography
+// Visual
+// Animation

@@ -1,0 +1,59 @@
+// Colors
+$black: #000 !default;
+$black-bis: #333 !default;
+$black-ter: #373737 !default;
+
+$grey-darker: #333 !default;
+$grey-dark: #666 !default;
+$grey: #999 !default;
+$grey-light: #ccc !default;
+$grey-lighter: #ddd !default;
+
+$white-ter: #f3f3f3 !default;
+$white-bis: hsl(0, 0%, 98%) !default;
+$white: #fff !default;
+
+$orange: hsl(14, 100%, 53%) !default;
+$yellow: hsl(44, 100%, 77%) !default;
+$green: hsl(153, 53%, 53%) !default;
+$turquoise: hsl(171, 100%, 41%) !default;
+$cyan: hsl(207, 61%, 53%) !default;
+$blue: hsl(229, 53%, 53%) !default;
+$purple: hsl(271, 100%, 71%) !default;
+$red: hsl(348, 86%, 61%) !default;
+
+// $primary: #23a6f0 !default;
+$link: #0f84d8 !default;
+$success: #5cc423 !default;
+$danger: #da291c !default;
+
+// Typography
+$family-default: Tahoma,Geneva,Verdana,sans-serif !default;
+$family-title: Tahoma,Geneva,Verdana,sans-serif !default;
+$family-code: monospace !default;
+
+$weight-light: 300 !default;
+$weight-regular: 400 !default;
+$weight-medium: 500 !default;
+$weight-semibold: 600 !default;
+$weight-bold: 700 !default;
+$weight-extrabold: 800 !default;
+$weight-black: 900 !default;
+
+$rtl: false !default;
+
+$column-gap: 10px;
+$gutter: 16px;
+
+// Global
+$body-font-size: #{$browser-context}px;
+$body-line-height: 1.4;
+$body-family: $family-default;
+$body-weight: $weight-regular;
+$body-color: $black-bis;
+$body-background-color: $white;
+
+// Border
+$border-radius: rem(7);
+$border-radius-rounded: 99999px !default;
+$border-color: $grey-lighter;
