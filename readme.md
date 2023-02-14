@@ -4,13 +4,21 @@ It is a set of usefull components. Developer following a Stencil JS training. Do
 - sticky-header
 - modal
 
-## sticky-header
+## Installation
+
+```
+$ npm install sticky
+```
+
+## Usage
+
+### Sticky-Header
 
 #### Javascript
 How to import it into his vanilla js project:
 
 ```javascript
-import { defineCustomElement, StickyHeader } from 'usf-components';
+import { defineCustomElement, StickyHeader } from 'usf-stencil-components';
 defineCustomElement('usf-sticky-header', StickyHeader);
 ```
 
@@ -28,7 +36,7 @@ How to use it in html:
 - gluedStart: boolean
 - gluedActive: boolean
 
-## modal
+### Modal
 
 #### Javascript
 How to import it into his vanilla js project:
