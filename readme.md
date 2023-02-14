@@ -1,4 +1,4 @@
-# Usefull Components
+# Usefull Stencil Components
 
 It is a set of usefull components. Developer following a Stencil JS training. For the moment I have developed two components:
 - sticky-header
@@ -34,7 +34,7 @@ How to use it in html:
 How to import it into his vanilla js project:
 
 ```javascript
-import { defineCustomElement, modal } from 'usf-components';
+import { defineCustomElement, modal } from 'usf-stencil-components';
 defineCustomElement('usf-modal', modal);
 ```
 
