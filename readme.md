@@ -1,6 +1,6 @@
 # Usefull Stencil Components
 
-It is a set of usefull components. Developer following a Stencil JS training. For the moment I have developed two components:
+It is a set of usefull components. Developer following a Stencil JS training. Don't look at the size of the package, it's a practice, stencil doesn't seem to be a good solution to be used outside of a stencil project. For the moment I have developed two components:
 - sticky-header
 - modal
 
