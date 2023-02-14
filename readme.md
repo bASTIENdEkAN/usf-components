@@ -7,7 +7,7 @@ It is a set of usefull components. Developer following a Stencil JS training. Do
 ## Installation
 
 ```
-$ npm install sticky
+npm i usf-stencil-components
 ```
 
 ## Usage
