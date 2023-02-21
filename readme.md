@@ -12,14 +12,27 @@ npm i usf-stencil-components
 
 ## Usage
 
+### Import all
+
+```javascript
+import { StickyHeader, Modal } from 'usf-stencil-components/dist/components';
+customElements.define('usf-sticky-header', StickyHeader);
+customElements.define('usf-modals', Modal);
+```
+
 ### Sticky-Header
 
 #### Javascript
 How to import it into his vanilla js project:
 
 ```javascript
-import { defineCustomElement, StickyHeader } from 'usf-stencil-components';
-defineCustomElement('usf-sticky-header', StickyHeader);
+import { StickyHeader } from 'usf-stencil-components/dist/components';
+customElements.define('usf-sticky-header', StickyHeader);
+
+// or
+
+import { defineCustomElement as UsfStickyHeader} from 'usf-stencil-components/dist/components/usf-sticky-header';
+UsfStickyHeader();
 ```
 
 #### HTML
@@ -42,8 +55,13 @@ How to use it in html:
 How to import it into his vanilla js project:
 
 ```javascript
-import { defineCustomElement, modal } from 'usf-stencil-components';
-defineCustomElement('usf-modal', modal);
+import { Modal } from 'usf-stencil-components/dist/components';
+customElements.define('usf-sticky-header', Modal);
+
+// or
+
+import { defineCustomElement as UsfModal} from 'usf-stencil-components/dist/components/usf-sticky-header';
+UsfModal();
 ```
 
 #### HTML
