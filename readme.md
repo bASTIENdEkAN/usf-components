@@ -60,7 +60,7 @@ customElements.define('usf-sticky-header', Modal);
 
 // or
 
-import { defineCustomElement as UsfModal} from 'usf-stencil-components/dist/components/usf-sticky-header';
+import { defineCustomElement as UsfModal} from 'usf-stencil-components/dist/components/usf-modal';
 UsfModal();
 ```
 
